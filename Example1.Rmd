@@ -1,0 +1,67 @@
+---
+title: "Example 1"
+author: "Camice J Revier"
+date: "2022-12-01"
+output:
+  html_document: default
+  pdf_document: default
+---
+# This is a header
+
+```{r load-data, message=FALSE}
+library(tidyverse)
+library(kableExtra)
+library(rmarkdown)
+library(ggpubr)
+
+# This is a comment
+#Load the dataset
+
+pop_data <- read.csv("data/gapminder_data.csv")
+
+#create a table with data from European countries in 2007 showing the countries
+# with the largest life expectancy on top
+euro_data_tbl <- pop_data %>%
+                    filter(continent == "Europe" & year == 2007) %>%
+                    select(-continent, -year) %>%
+                    arrange(desc(lifeExp)) %>%
+                    rename(Country = country, "Population Size" = pop,
+                           "Life Expectancy" = lifeExp, "GDP" = gdpPercap)
+
+```
+
+Here we have our data set.
+
+```{r create-table}
+euro_data_tbl %>% 
+      kbl() %>%
+      kable_styling(bootstrap_options = c("stiped", "hover")) 
+```
+
+Challenge Table Styles
+
+```{r challenge create condensed table}
+kbl(euro_data_tbl) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
+```
+
+
+Challenge Table Responsive
+
+```{r challenge responsive}
+kbl(euro_data_tbl) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+```
+
+Here is how to display a massive table
+
+```{r paged-table}
+paged_table(euro_data_tbl)
+```
+
+Challenge Adding Images
+
+```{r}
+
+```
+
